@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--命名空间-->
+<mapper namespace="com.hzpicc.import2wx.dao.TUserMapper">
+    <!--防止实体类与数据库命名不一致-->
+    <resultMap id="userMap" type="com.hzpicc.import2wx.entity.TUser">
+
+        <result column="oto_binding_info_id" property="oto_binding_info_id"/>
+        <result column="user_acnt_id" property="user_acnt_id"/>
+        <result column="open_id" property="open_id"/>
+        <result column="open_id_bak" property="open_id_bak"/>
+        <result column="identifytypecode" property="identifytypecode"/>
+        <result column="identifytype" property="identifytype"/>
+        <result column="identifynumber" property="identifynumber"/>
+        <result column="obi_state" property="obi_state"/>
+        <result column="bingding_time" property="bingding_time"/>
+        <result column="unbinding_time" property="unbinding_time"/>
+        <result column="date_create" property="date_create"/>
+        <result column="date_modify" property="date_modify"/>
+        <result column="date_delete" property="date_delete"/>
+        <result column="create_account_type" property="create_account_type"/>
+        <result column="create_account_type_code" property="create_account_type_code"/>
+        <result column="creator_account" property="creator_account"/>
+        <result column="creator_name" property="creator_name"/>
+        <result column="creator_group_acnt_type" property="creator_group_acnt_type"/>
+        <result column="creator_group_acnt_type_code" property="creator_group_acnt_type_code"/>
+        <result column="creator_group_account" property="creator_group_account"/>
+        <result column="creator_group_name" property="creator_group_name"/>
+        <result column="data_access_flag" property="data_access_flag"/>
+        <result column="uacnt_system" property="uacnt_system"/>
+        <result column="uacnt_system_code" property="uacnt_system_code"/>
+        <result column="user_name" property="user_name"/>
+        <result column="ouc_code" property="ouc_code"/>
+        <result column="mobile" property="mobile"/>
+        <result column="obi_activity_type" property="obi_activity_type"/>
+        <result column="obi_activity_type_code" property="obi_activity_type_code"/>
+    </resultMap>
+
+    <!--查询t_user表中数据行数-->
+    <select id="queryCount" resultType="java.lang.Integer">
+        select count(*) from oto_binding_info
+    </select>
+
+
+    <select id="select100" resultMap="userMap">
+        select first 100 * from oto_binding_info where open_id_bak is null and obi_state!='N'
+    </select>
+</mapper>

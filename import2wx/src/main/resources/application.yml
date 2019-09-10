@@ -1,0 +1,80 @@
+server:
+  port: 8080
+
+
+spring:
+  mvc:
+    view:
+      prefix: /page/
+      suffix: .html
+
+  datasource:
+    url:  jdbc:informix-sqli://35.17.32.12:20040/visscore2:informixserver=hzifxsvr1;NEWLOCALE=zh_cn,en_us;NEWCODESET=GBK,8859-1,819;IFX_LOCK_MODE_WAIT=5;IFX_ISOLATION_LEVEL=1U;IFX_TRIMTRAILINGSPACES=1;
+    username: visscore
+    password: tQOYspY!Z
+    driver-class-name: com.informix.jdbc.IfxDriver
+
+#  #以下为新增
+#  druid:
+#    # 指明是否在从池中取出连接前进行检验,如果检验失败, 则从池中去除连接并尝试取出另一个，
+#    #注意: 设置为true后如果要生效,validationQuery参数必须设置为非空字符串
+#    test-on-borrow: false
+#    # 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除.
+#    #注意: 设置为true后如果要生效,validationQuery参数必须设置为非空字符串
+#    test-while-idle: true
+#    # 指明是否在归还到池中前进行检验，注意: 设置为true后如果要生效,
+#    #validationQuery参数必须设置为非空字符串
+#    test-on-return: false
+#    # SQL查询,用来验证从连接池取出的连接,在将连接返回给调用者之前.
+#    #如果指定,则查询必须是一个SQL SELECT并且必须返回至少一行记录
+#    validation-query: select 1
+
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    druid:
+#      # 下面为连接池的补充设置，应用到上面所有数据源中
+#      # 初始化大小，最小，最大
+#      initial-size: 5
+#      min-idle: 5
+#      max-active: 20
+#      # 配置获取连接等待超时的时间
+#      max-wait: 60000
+#      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+#      time-between-eviction-runs-millis: 60000
+#      # 配置一个连接在池中最小生存的时间，单位是毫秒
+#      min-evictable-idle-time-millis: 300000
+#      validation-query: SELECT 1 FROM DUAL
+#      test-while-idle: true
+#      test-on-borrow: false
+#      test-on-return: false
+#      # 打开PSCache，并且指定每个连接上PSCache的大小
+#      pool-prepared-statements: true
+#      #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+#      max-pool-prepared-statement-per-connection-size: 20
+#      filters: stat,wall
+#      use-global-data-source-stat: true
+#      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+#      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+#      # 配置监控服务器
+#      stat-view-servlet:
+#        login-username: admin
+#        login-password: 123456
+#        reset-enable: false
+#        url-pattern: /druid/*
+#        # 添加IP白名单
+#        #allow:
+#        # 添加IP黑名单，当白名单和黑名单重复时，黑名单优先级更高
+#        #deny:
+#        enabled: true
+#      web-stat-filter:
+#        # 添加过滤规则
+#        url-pattern: /*
+#        # 忽略过滤格式
+#        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+#        enabled: true
+
+mybatis:
+  mapper-locations: classpath:dao/*.xml
+  type-aliases-package: com.hzpicc.import2wx.entity
+
+
+
