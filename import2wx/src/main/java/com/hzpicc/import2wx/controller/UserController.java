@@ -18,14 +18,12 @@ public class UserController {
     @RequestMapping("/select100")
     @ResponseBody
     public List<TUser>  select100(){
-//        System.out.println("select100我来了");
         List<TUser> tUsers = tUserService.select100();
         return tUsers;
     }
     @RequestMapping("/count")
     @ResponseBody
     public Integer  count(){
-//        System.out.println("count我来了");
         Integer num = tUserService.count();
         return num;
     }
