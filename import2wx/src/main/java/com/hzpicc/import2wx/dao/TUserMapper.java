@@ -14,7 +14,14 @@ public interface TUserMapper {
     Integer queryCount();
 
     //查询前100条  可用数据
-
     List<TUser> select100();
+
+    List<TUser> select100items4openId();
+
+    void updateOpenId(String new_open_id, String open_id);
+
+    void updateObiState(String open_id);
+
+
 }
 

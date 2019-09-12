@@ -1,11 +1,13 @@
 package com.hzpicc.import2wx.entity;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 //t_user表的实体类
 @Data
+@Accessors(chain = true)
 public class TUser {
     private String oto_binding_info_id;
     private String user_acnt_id;

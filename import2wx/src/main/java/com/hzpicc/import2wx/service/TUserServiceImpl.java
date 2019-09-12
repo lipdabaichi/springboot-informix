@@ -30,4 +30,10 @@ public class TUserServiceImpl implements TUserService {
         Integer num = tUserMapper.queryCount();
         return num;
     }
+
+    @Override
+    public List<TUser> select100items4openId() {
+        List<TUser> tUserList = tUserMapper.select100items4openId();
+        return tUserList;
+    }
 }

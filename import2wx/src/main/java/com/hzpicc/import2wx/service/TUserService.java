@@ -9,4 +9,6 @@ public interface TUserService {
     List<TUser> select100();
 
     Integer count();
+
+    List<TUser> select100items4openId();
 }

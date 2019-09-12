@@ -111,7 +111,7 @@ public class HttpClientUtils {
         try {
             HttpHost proxy = new HttpHost("34.17.88.6", 7070, "http");
             CredentialsProvider provider = new BasicCredentialsProvider();
-            provider.setCredentials(new AuthScope(proxy), new UsernamePasswordCredentials("账号", "密码"));
+            provider.setCredentials(new AuthScope(proxy), new UsernamePasswordCredentials("", ""));
             httpClient = HttpClients.custom().setDefaultCredentialsProvider(provider).build();
             httpPost = new HttpPost(reqURL);
             RequestConfig requestConfig = RequestConfig.custom()//
