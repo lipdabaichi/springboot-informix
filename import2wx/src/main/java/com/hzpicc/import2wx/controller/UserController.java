@@ -39,7 +39,7 @@ public class UserController {
     }
 
     //获得省公司的token  [注意2小时失效.]
-    public static String goalToken = "25_T3A57NEB-2Tzfy-s6_VZ2iXnKJvrlQQtaLFmwAslbpQp_NUUybBlEuMwE5UtO2QwqJHu6okixCPH1fZKTsbLyVy4aYsaXb0z1eJknBaylr6QpfaRp_GLx9xmQxFsiBfvSP_vj_XTGIrrS2KhMTDlCAABIS";
+    public static String goalToken = "25_Xu5Qft30gPmaMY9-SvBXhPJvuecwD3FvaEPRaLMLqKR96B98BPnmgPXDbO0bJDnH4I8p0N9MABruHcgo9-x58Jg1mgAB80pHO2S7MO1QpwDv37a7KDrYeRFB9aoh1UvSzATbG0dhU2f2iefKXVMjCEASQH";
     //原来的公众号的appid
     public static final String Appid = "wxba8bb5f408dc780d";
 

@@ -18,7 +18,7 @@ public interface TUserMapper {
 
     List<TUser> select100items4openId();
 
-    void updateOpenId(String new_open_id, String open_id);
+    void updateOpenId(String new_open_id, String open_id,String err_msg);
 
     void updateObiState(String open_id);
 

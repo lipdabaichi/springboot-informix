@@ -46,20 +46,22 @@
 
 
     <select id="select100" resultMap="userMap">
-        select first 100 * from oto_binding_info where open_id_bak is null and obi_state!='N'
+        select first 100 * from oto_binding_info where new_open_id is null and obi_state!='N'
     </select>
 
     <select id="select100items4openId" resultType="String">
-        select first 100 open_id from oto_binding_info where open_id_bak is null and obi_state!='N'
+        select first 2 open_id from oto_binding_info where new_open_id is null and obi_state!='N'
     </select>
 
     <update id="updateOpenId"  parameterType="com.hzpicc.import2wx.entity.TUser">
         update oto_binding_info
-        <set>
-            <if test="new_open_id == null">new_open_id=#{new_open_id}</if>
-        </set>
+        set
+            new_open_id=#{new_open_id},
+            err_msg=#{err_msg}
         where open_id=#{open_id}
     </update>
+
+
     <!--范围广-->
 <!--    <update id="updateObiState" >-->
 <!--        update oto_binding_info-->
