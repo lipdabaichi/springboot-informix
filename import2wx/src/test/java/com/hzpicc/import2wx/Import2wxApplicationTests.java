@@ -6,6 +6,7 @@ import com.hzpicc.import2wx.entity.RequestToJson;
 import com.hzpicc.import2wx.entity.TUser;
 import com.hzpicc.import2wx.utils.GlobalConstants;
 import com.hzpicc.import2wx.utils.HttpClientUtils;
+import com.hzpicc.import2wx.utils.HttpUtils;
 import lombok.Data;
 import net.sf.json.JSONObject;
 import org.jboss.logging.LogMessage;
@@ -28,7 +29,6 @@ import static com.hzpicc.import2wx.utils.HttpUtils.buildUrl;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes =  Import2wxApplication.class)
 public class Import2wxApplicationTests {
-    String goalToken = "25_Ze4gt3d_oQk2EXuPj9K3UkGYum2tRifFAXwd3rCPCyZuXMku5MNurvsE1_RE4qdBEIrrBY8vlwlqIdPrfHb_G233juMEokwbgpkc-Qmfpy9DZXEYvLcltAI7-dXMKULoK2-652ymsHpASqFzTUTfCGACDC";
 
     @Autowired
     private TUserMapper tUserMapper;
@@ -39,7 +39,7 @@ public class Import2wxApplicationTests {
     }
 
     /**
-     *
+     * 获取当前市公司的token
      * @throws Exception
      * @Test success
      */
@@ -50,16 +50,11 @@ public class Import2wxApplicationTests {
         params.put("appid", GlobalConstants.getInterfaceUrl("appid"));
         params.put("secret", GlobalConstants.getInterfaceUrl("AppSecret"));
 
-//原版
-//        String jstoken = HttpUtils.sendGet(
-//                GlobalConstants.getInterfaceUrl("tokenUrl"), params);
-        //以下三句配置了代理
+        //配置代理
         String url = buildUrl(GlobalConstants.getInterfaceUrl("tokenUrl"), params);
         System.out.println(url);
         String jstoken = HttpClientUtils.doGet(url);
 
-
-//        System.out.println(">>>>>>>我来了马飞!!!!!!>>>>>>>>>>>>>>>>token:"+jstoken);
         String access_token = JSONObject.fromObject(jstoken).getString(
                 "access_token"); // 获取到token并赋值保存
         GlobalConstants.interfaceUrlProperties.put("access_token", access_token);
@@ -77,36 +72,35 @@ public class Import2wxApplicationTests {
         System.out.println(tUsers);
     }
 
-    /**
-     * openid的转换
-     * @param goalToken  目标公众号的token
-     * @param fromAppid  原来公众号的appid
-     * @param openIdList  原来公众号的openid List   一次最多100个
-     */
 
-//    @Test
-//    public void transferAPI(String goalToken , String fromAppid , List<String> openIdList ) {
-//        String url = "http://api.weixin.qq.com/cgi-bin/changeopenid?access_token=" + goalToken;
-//
-////        HttpUtils.sendPost()
-//        //发送post请求给腾讯API
-//        RequestToJson req = new RequestToJson();
-//        req.setFrom_appid(fromAppid);
-//        req.setOldOpenIds(openIdList);
-//        JSONObject jsonData = JSONObject.fromObject(req);
-//        System.out.println(jsonData);
-//
-//
-//        String result = HttpClientUtils.postJson(url, jsonData.toString());
-//        System.out.println("迁移的结果:"+result);
-//        //把腾讯API获得到的值 String 转化为 Json 再转换成Object
-//
-//        //写入数据库
-//
-//        String oriOpenid = JSONObject.fromObject(result).getString("ori_openid");
-//        String newOpenid = JSONObject.fromObject(result).getString("new_openid");
-//        System.out.println(oriOpenid);
-//        System.out.println(newOpenid);
-//    }
+    /**
+     * 通过get请求访问4400次该网页
+     */
+    @Test
+    public void run4400() {
+        String baseUrl = "http://localhost:8080/user/transfer";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Boolean result = false;
+        int count = 0;
+        Map<String, String> s = new HashMap<>();
+        while (!result) {
+            try {
+                Thread.sleep(2 * 1000); //设置暂停的时间 5 秒
+                count++;
+                System.out.println(sdf.format(new Date()) + "--循环执行第" + count + "次");
+//                String s = HttpClientUtils.doGet(baseUrl);    //不能用.主要因为是设置了代理
+                String s2 = HttpUtils.sendGet(baseUrl, s);
+                System.out.println(s2);
+                if (count == 3163) {
+                    result = true;
+                    break;
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

@@ -50,7 +50,7 @@
     </select>
 
     <select id="select100items4openId" resultType="String">
-        select first 2 open_id from oto_binding_info where new_open_id is null and obi_state!='N'
+        select first 100 open_id from oto_binding_info where new_open_id is null and obi_state!='N'
     </select>
 
     <update id="updateOpenId"  parameterType="com.hzpicc.import2wx.entity.TUser">
@@ -60,14 +60,14 @@
             err_msg=#{err_msg}
         where open_id=#{open_id}
     </update>
+    <update id="updateOpenId1"  parameterType="com.hzpicc.import2wx.entity.TUser">
+        update oto_binding_info
+        set
+            err_msg=#{err_msg},
+            obi_state='N',
+            date_modify=current
 
+        where open_id=#{open_id}
+    </update>
 
-    <!--范围广-->
-<!--    <update id="updateObiState" >-->
-<!--        update oto_binding_info-->
-<!--        <set>-->
-<!--            <if test="obi_state != null">obi_state='N'</if>-->
-<!--        </set>-->
-<!--        where open_id=#{open_id}-->
-<!--    </update>-->
 </mapper>

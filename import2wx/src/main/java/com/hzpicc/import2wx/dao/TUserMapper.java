@@ -20,6 +20,8 @@ public interface TUserMapper {
 
     void updateOpenId(String new_open_id, String open_id,String err_msg);
 
+    void updateOpenId1( String open_id,String err_msg);
+
     void updateObiState(String open_id);
 
 

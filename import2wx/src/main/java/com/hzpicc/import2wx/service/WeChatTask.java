@@ -28,6 +28,8 @@ import static com.hzpicc.import2wx.utils.HttpUtils.buildUrl;
 
 @Service
 public class WeChatTask {
+    @Autowired
+    private TUserMapper tUserMapper;
 
     /**
      * 得到微信的token
@@ -56,12 +58,15 @@ public class WeChatTask {
      * 获得openid的list
      * @return
      */
-    @Autowired
-    private TUserMapper tUserMapper;
     public  List<TUser> getOpenIdList(){
         List<TUser> tUsers = tUserMapper.select100items4openId();
         return tUsers;
     }
+
+    /**
+     * 获得省公司的token
+     * @return
+     */
     public String getProvinceToken(){
         String baseUrl = "http://35.1.36.100:8080/zjweixin/ZjpiccServForYR";
         String postBody = "{\n" +
@@ -75,18 +80,11 @@ public class WeChatTask {
                 "    }\n" +
                 "}\n";
 
+        String result = HttpClientUtils.postJson(baseUrl, postBody);
+        JSONObject apiJson = JSONObject.fromObject(result);
+        String accesstoken = apiJson.getString("accesstoken");
 
-
-//
-//        返回报文样式：
-//        {
-//            "retcode":"0",
-//                "retmsg":"成功",
-//                "seqno":"1234567890",
-//                "accesstoken":"whZTdowCChxCZ7NXbsj2LRmtjw5bhm5FTnHlx-xZwup01M6jiTAAsJaI4wJFFuVSkHg4KoK_tolxC1F9atpKGlaaYXBfDBSZhNlMlnbGOoT5k8rj9RYh7Qn2LruU6X_TTVSfCCAJLI"
-//        }
-
-        return result;
+        return accesstoken;
     }
     /**
      * openid的转换
@@ -119,6 +117,16 @@ public class WeChatTask {
         }catch (JSONException e){
             System.out.println(apiJson.getString("errmsg"));
             System.out.println("目测是省公司token失效");
+            //更正省公司为正确的token
+            String reverseTokenUrl = "http://localhost:8080/user/reverse";
+            Map<String, String> s = new HashMap<>();
+            try {
+                String s1 = HttpUtils.sendGet(reverseTokenUrl, s);
+                System.out.println(s1);
+            } catch (Exception ex) {
+//                ex.printStackTrace();
+                System.out.println("HttpUtils.sendGet发送reverseTokenUrl异常，请排除");
+            }
             return;
         }
 
@@ -130,21 +138,17 @@ public class WeChatTask {
             String new_openid = transferNode.getNew_openid();
             String ori_openid = transferNode.getOri_openid();
             String err_msg = transferNode.getErr_msg();
-            System.out.println("当前行new_open_id是"+new_openid+">>>>>>>old_open_id是"+ori_openid);
+            System.out.println("当前行new_open_id是"+new_openid+"——————————old_open_id是"+ori_openid);
             //3.写入数据库
             if (new_openid!= null) {
-                tUserMapper.updateOpenId(new_openid,ori_openid,err_msg);   //暂时不启用
-                System.out.println("此处是数据库修改new_open_id数据>>>>" + "new_openid:" + new_openid + ">>ori_openid<<<<" + ori_openid+">>>>err_msg"+err_msg);
+                tUserMapper.updateOpenId(new_openid,ori_openid,err_msg);
+                System.out.println("此处是数据库修改new_open_id数据----" + "new_openid:" + new_openid + "--ori_openid----" + ori_openid+"----err_msg----"+err_msg);
             }else{
-//                    tUserMapper.updateObiState(ori_openid);      后果很严重,慎重!!!!!!!!!!@@@@@@@@@@@@@@@@@@@@@@
-                System.out.println("@@!!!!!!此处是更改标示位为N数据>>>>" + "new_openid:" + new_openid + ">>ori_openid<<<<" + ori_openid+">>>>err_msg"+err_msg);
+                //腾讯API返回出错
+                tUserMapper.updateOpenId1(ori_openid,err_msg);
+                System.out.println("@@!!!!!!此处是更改标示位为N数据----" + "new_openid:" + new_openid + "--ori_openid----" + ori_openid+"----err_msg----"+err_msg);
             }
         }
         System.out.println("结束了");
-
-
-
     }
-
-
 }
